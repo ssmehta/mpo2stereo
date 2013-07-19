@@ -44,7 +44,7 @@ if __name__ == '__main__':
     
     
     # Process the given MPO files
-    for filename in args:
+    for i, filename in enumerate(args):
         try:
             # Load the right and left images (ordered for crosseye stereo)
             img_right, img_left = split_mpo(filename)
@@ -64,12 +64,12 @@ if __name__ == '__main__':
             stereo_type = 'parallel' if options.parallel else 'crosseye'
             filename = filename[:-4] +'_'+ stereo_type +'.jpg'
             
-            print('Writing '+ filename)
+            print('Writing '+ filename +' (%d/%d)' % (i + 1, len(args)))
             img_stereo.save(filename)
         
         except MPOError:
-            print(filename +' is not a valid MPO file.')
-        except IOError, e:
+            print(filename +' is not a valid MPO file')
+        except IOError as e:
             print(filename +':')
             print('errno:', e.errno)
             print('err code:', errno.errorcode[e.errno])
